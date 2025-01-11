@@ -385,7 +385,6 @@ body {
 	animation: etl-opener-animation-in-zoom-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite;
 	perspective: 1000px;
 	transform: scale(2);
-	
 }
 
 .etl-opener-animation-in-zoom-out-letter-paralax .etl-timeline-period-opener-date-char {
@@ -409,7 +408,6 @@ body {
 	animation: etl-opener-animation-in-zoom-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite;
 	perspective: 1000px;
 	transform: scale(2);
-	
 }
 
 .etl-opener-animation-in-zoom-out-letter-random-paralax .etl-timeline-period-opener-date-char {
@@ -453,7 +451,6 @@ body {
 /* Zoom Out & Letter Random Blur */
 .etl-opener-animation-in-zoom-out-letter-blur .etl-timeline-period-opener-date {
 	animation: etl-opener-animation-in-zoom-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite;
-	perspective: 1000px;
 	transform: scale(2);
 }
 
@@ -474,21 +471,6 @@ body {
 	}
 }
 
-/* Zoom Out & Letter Random Blur */
-.etl-opener-animation-in-zoom-out-letter-random-blur .etl-timeline-period-opener-date {
-	animation: etl-opener-animation-in-zoom-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite;
-	perspective: 1000px;
-	transform: scale(2);
-}
-
-.etl-opener-animation-in-zoom-out-letter-random-blur .etl-timeline-period-opener-date-char {
-	--char-animation-delay: calc(25ms * var(--char-random-value));
-	animation: etl-opener-animation-in-zoom-out-letter-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite,
-						 etl-opener-animation-in-fade-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite;
-	opacity: 0;
-	filter: blur(10px);
-	--char-random-value: 1;
-}
 
 /* Zoom Out & Letter Random paralax Blur */
 .etl-opener-animation-in-zoom-out-letter-random-paralax-blur .etl-timeline-period-opener-date {
