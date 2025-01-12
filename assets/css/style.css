@@ -11,7 +11,7 @@ body {
 	height: auto;
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(10, 200px);
+	grid-template-rows: repeat(25, 200px);
 	gap: 10px
 }
 
@@ -182,6 +182,8 @@ body {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	perspective: 1000px;
+	transform-style: preserve-3d;
 }
 
 .etl-timeline-period-opener-date-char {
@@ -190,6 +192,8 @@ body {
 	font-weight: 900;
 	color: #F8F9FA;
 	white-space: pre;
+	transform-origin: 50% 50%;
+	font-family: 'Inter', sans-serif;
 }
 
 /* Layout */
@@ -359,12 +363,12 @@ body {
 						 etl-opener-animation-in-letter-spacing-inside var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite;
 	transform: scale(2);
 	opacity: 0;
-	gap: 20px;
+	gap: 30px;
 }
 
 @keyframes etl-opener-animation-in-letter-spacing-inside {
 	0% {
-		gap: 20px;
+		gap: 30px;
 	}
 	100% {
 		gap: 0px;
@@ -435,14 +439,14 @@ body {
 /* Zoom Out & Blur */
 .etl-opener-animation-in-zoom-out-blur .etl-timeline-period-opener-date {
 	animation: etl-opener-animation-in-zoom-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite,
-						 etl-opener-animation-in-zoom-out-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite,
+						 etl-opener-animation-in-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite,
 						 etl-opener-animation-in-fade-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite;
 	opacity: 0;
 	filter: blur(20px);
 	transform: scale(2);
 }
 
-@keyframes etl-opener-animation-in-zoom-out-blur {
+@keyframes etl-opener-animation-in-blur {
 	0% {
 		filter: blur(50px);
 	}
@@ -459,13 +463,13 @@ body {
 }
 
 .etl-opener-animation-in-zoom-out-letter-blur .etl-timeline-period-opener-date-char {
-	animation: etl-opener-animation-in-zoom-out-letter-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite,
+	animation: etl-opener-animation-in-letter-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite,
 						 etl-opener-animation-in-fade-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite;
 	opacity: 0;
 	filter: blur(10px);
 }
 
-@keyframes etl-opener-animation-in-zoom-out-letter-blur {
+@keyframes etl-opener-animation-in-letter-blur {
 	0% {
 		filter: blur(10px);
 	}
@@ -484,7 +488,7 @@ body {
 
 .etl-opener-animation-in-zoom-out-letter-random-blur .etl-timeline-period-opener-date-char {
 	--char-animation-delay: calc(25ms * var(--char-random-value));
-	animation: etl-opener-animation-in-zoom-out-letter-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite,
+	animation: etl-opener-animation-in-letter-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite,
 						 etl-opener-animation-in-fade-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite;
 	opacity: 0;
 	filter: blur(10px);
@@ -500,7 +504,7 @@ body {
 
 .etl-opener-animation-in-zoom-out-letter-random-paralax-blur .etl-timeline-period-opener-date-char {
 	--char-animation-delay: calc(25ms * var(--char-random-value));
-	animation: etl-opener-animation-in-zoom-out-letter-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite,
+	animation: etl-opener-animation-in-letter-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite,
 						 etl-opener-animation-in-zoom-out-letter-random-paralax var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite,
 						 etl-opener-animation-in-fade-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite;
 	opacity: 0;
@@ -509,13 +513,13 @@ body {
 }
 
 
-
-
-
-
-
-
-
+/* Letter Spacing Inside */
+.etl-opener-animation-in-letter-spacing-inside .etl-timeline-period-opener-date {
+	animation: etl-opener-animation-in-fade-out var(--animation-duration) cubic-bezier(1, 0, .5, 1) infinite,
+						 etl-opener-animation-in-letter-spacing-inside var(--animation-duration) cubic-bezier(1, 0, .5, 1) infinite;
+	opacity: 0;
+	gap: 30px;
+}
 
 
 /* Letter Fly Up/Down */
@@ -533,37 +537,129 @@ body {
 	transform: translateY(-100%);
 }
 
+
 /* Letter Rotate */
 .etl-opener-animation-in-letter-rotate .etl-timeline-period-opener-date {
 	perspective: 1000px;
 }
 
 .etl-opener-animation-in-letter-rotate .etl-timeline-period-opener-date-char {
-	animation: etl-opener-animation-in-zoom-out-letter-rotate var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite,
-						 etl-opener-animation-in-fade-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite;
+	animation: etl-opener-animation-in-zoom-out-letter-rotate var(--animation-duration) cubic-bezier(1, 0, .5, 1) infinite,
+						 etl-opener-animation-in-fade-out var(--animation-duration) cubic-bezier(1, 0, .5, 1) infinite;
 	transform: rotateY(90deg);
 }
 
 
+/* Blur */
+.etl-opener-animation-in-blur .etl-timeline-period-opener-date {
+	animation: etl-opener-animation-in-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite,
+						 etl-opener-animation-in-fade-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite;
+	opacity: 0;
+	filter: blur(20px);
+}
 
 
+/* Letter Blur */
+.etl-opener-animation-in-letter-blur .etl-timeline-period-opener-date-char {
+	animation: etl-opener-animation-in-letter-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite,
+						 etl-opener-animation-in-fade-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite;
+	opacity: 0;
+	filter: blur(10px);
+}
 
 
-
+/* Zoom Out & Letter Random Blur */
+.etl-opener-animation-in-letter-random-blur .etl-timeline-period-opener-date-char {
+	--char-animation-delay: calc(25ms * var(--char-random-value));
+	animation: etl-opener-animation-in-letter-blur var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite,
+						 etl-opener-animation-in-fade-out var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite;
+	opacity: 0;
+	filter: blur(10px);
+	--char-random-value: 1;
+}
 
 
 /* Zoom In */
 .etl-opener-animation-in-zoom-in .etl-timeline-period-opener-date {
 	animation: etl-opener-animation-in-zoom-in var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite;
+	transform: scale(0);
 }
 
 @keyframes etl-opener-animation-in-zoom-in {
 	0% {
 		transform: scale(0);
-		opacity: 0;
 	}
 	100% {
 		transform: scale(1);
-		opacity: 1;
 	}
+}
+
+
+/* Zoom In & Letter Paralax */
+.etl-opener-animation-in-zoom-in-letter-paralax .etl-timeline-period-opener-date {
+	animation: etl-opener-animation-in-zoom-in var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite;
+	perspective: 1000px;
+	transform: scale(0);
+}
+
+.etl-opener-animation-in-zoom-in-letter-paralax .etl-timeline-period-opener-date-char {
+	animation: etl-opener-animation-in-zoom-in-letter-paralax var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite;
+	transform: translateZ(-500px);
+}
+
+@keyframes etl-opener-animation-in-zoom-in-letter-paralax {
+	0% {
+		transform: translateZ(-500px);
+	}
+	100% {
+		transform: translateZ(0px);
+	}
+}
+
+
+/* Zoom in & Letter Random Paralax */
+.etl-opener-animation-in-zoom-in-letter-random-paralax .etl-timeline-period-opener-date {
+	animation: etl-opener-animation-in-zoom-in var(--animation-duration) cubic-bezier(.5, 0, 0, 1) infinite;
+	perspective: 1000px;
+	transform: scale(0);
+}
+
+.etl-opener-animation-in-zoom-in-letter-random-paralax .etl-timeline-period-opener-date-char {
+	animation: etl-opener-animation-in-zoom-in-letter-random-paralax var(--animation-duration) cubic-bezier(.5, 0, 0, 1) var(--char-animation-delay) infinite;
+	transform: translateZ(calc(-100px * var(--char-random-value)));
+}
+
+@keyframes etl-opener-animation-in-zoom-in-letter-random-paralax {
+	0% {
+		transform: translateZ(calc(-100px * var(--char-random-value)));
+	}
+	100% {
+		transform: translateZ(0px);
+	}
+}
+
+
+
+
+
+
+.etl-timeline-period-opener-date[data-animation-in="zoom-out-offset-random"] .etl-timeline-period-opener-date-char {
+	opacity: 0;
+}
+
+.etl-timeline-period-opener-date[data-animation-in="zoom-out-outlined"] .etl-timeline-period-opener-date-char {
+	color: rgba(0, 0, 0, 0);
+	-webkit-text-stroke: 1px red;
+}
+
+
+.etl-timeline-period-opener-date[data-animation-in*="letter-fly-up"],
+.etl-timeline-period-opener-date[data-animation-in*="letter-fly-down"],
+.etl-timeline-period-opener-date[data-animation-out*="letter-fly-up"],
+.etl-timeline-period-opener-date[data-animation-out*="letter-fly-down"] {
+	overflow: hidden;
+}
+
+.etl-timeline-period-opener-date[data-animation-in="letters-neon"] .etl-timeline-period-opener-date-char {
+	opacity: 0;;
 }
