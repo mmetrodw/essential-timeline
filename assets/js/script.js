@@ -31,7 +31,7 @@ function createShuffledArray(n) {
 	return array;
 }
 
-const zoomOutSlide = (date, char) => {
+const zoomInOutSlide = (date, char, duration) => {
 	date.style.overflow = 'hidden';
 	return {
 		targets: char,
@@ -42,6 +42,7 @@ const zoomOutSlide = (date, char) => {
 					targets: date,
 					translateZ: [500, 0],
 					easing: 'cubicBezier(1, 0, .5, 1)',
+					duration: duration
 				});
 			}
 		},
@@ -79,109 +80,6 @@ const animationPresetsIn = {
 			}
 		}
 	},
-	zoomOutSlideUp: (date, char) => {
-		return {
-			...zoomOutSlide(date, char),
-			translateY: ['100%', '0%']
-		};
-	},
-	zoomOutSlideUpStep: (date, char) => {
-		return {
-			...zoomOutSlide(date, char),
-			translateY: ['100%', '0%'],
-			delay: anime.stagger(delayTime(char)),
-		}
-	},
-	zoomOutSlideUpStepCenter: (date, char) => {
-		return {
-			...zoomOutSlide(date, char),
-			translateY: ['100%', '0%'],
-			delay: anime.stagger(delayTime(char), {from: 'center'}),
-		}
-	},
-	zoomOutSlideUpRandom: (date, char) => {
-		const shuffledArray = createShuffledArray(char.length);
-		return {
-			...zoomOutSlide(date, char),
-			translateY: ['100%', '0%'],
-			delay: (el, index, length) => {
-				return shuffledArray[index] * delayTime(char);
-			}
-		}
-	},
-	zoomOutSlideDown: (date, char) => {
-		return {
-			...zoomOutSlide(date, char),
-			translateY: ['-100%', '0%']
-		};
-	},
-	zoomOutSlideDownStep: (date, char) => {
-		return {
-			...zoomOutSlide(date, char),
-			translateY: ['-100%', '0%'],
-			delay: anime.stagger(delayTime(char)),
-		}
-	},
-	zoomOutSlideDownStepCenter: (date, char) => {
-		return {
-			...zoomOutSlide(date, char),
-			translateY: ['-100%', '0%'],
-			delay: anime.stagger(delayTime(char), {from: 'center'}),
-		}
-	},
-	zoomOutSlideDownRandom: (date, char) => {
-		const shuffledArray = createShuffledArray(char.length);
-		return {
-			...zoomOutSlide(date, char),
-			translateY: ['-100%', '0%'],
-			delay: (el, index, length) => {
-				return shuffledArray[index] * delayTime(char);
-			}
-		}
-	},
-	zoomOutRotate: (date, char) => {
-		return {
-			...zoomOutSlide(date, char),
-			rotateY: [90, 0],
-			opacity: [0, 1]
-		};
-	},
-	zoomOutRotateStep: (date, char) => {
-		return {
-			...zoomOutSlide(date, char),
-			rotateY: [90, 0],
-			opacity: [0, 1],
-			delay: anime.stagger(delayTime(char)),
-		};
-	},
-	zoomOutRotateStepCenter: (date, char) => {
-		return {
-			...zoomOutSlide(date, char),
-			rotateY: [90, 0],
-			opacity: [0, 1],
-			delay: anime.stagger(delayTime(char), {from: 'center'}),
-		};
-	},
-	zoomOutRotateRandom: (date, char) => {
-		const shuffledArray = createShuffledArray(char.length);
-		return {
-			...zoomOutSlide(date, char),
-			rotateY: [90, 0],
-			opacity: [0, 1],
-			delay: (el, index, length) => {
-				return shuffledArray[index] * delayTime(char);
-			}
-		};
-	},
-	zoomOutTracking: (date,char) => {
-		return {
-			targets: date,
-			translateZ: [500, 0],
-			letterSpacing: ['20px', '0px'],
-			opacity: [0, 1],
-			easing: 'cubicBezier(.5, 0, 0, 1)',
-		};
-	},
 	zoomOutBlur: (date, char) => {
 		return {
 			targets: date,
@@ -212,6 +110,192 @@ const animationPresetsIn = {
 			delay: (el, index, length) => {
 				return shuffledArray[index] * delayTime(char);
 			}
+		}
+	},
+	zoomOutSlideUp: (date, char, duration) => {
+		return {
+			...zoomInOutSlide(date, char, duration),
+			translateY: ['100%', '0%']
+		};
+	},
+	zoomOutSlideUpStep: (date, char, duration) => {
+		return {
+			...zoomInOutSlide(date, char, duration),
+			translateY: ['100%', '0%'],
+			delay: anime.stagger(delayTime(char)),
+		}
+	},
+	zoomOutSlideUpStepCenter: (date, char, duration) => {
+		return {
+			...zoomInOutSlide(date, char, duration),
+			translateY: ['100%', '0%'],
+			delay: anime.stagger(delayTime(char), {from: 'center'}),
+		}
+	},
+	zoomOutSlideUpRandom: (date, char, duration) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			...zoomInOutSlide(date, char, duration),
+			translateY: ['100%', '0%'],
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	zoomOutSlideDown: (date, char, duration) => {
+		return {
+			...zoomInOutSlide(date, char, duration),
+			translateY: ['-100%', '0%']
+		};
+	},
+	zoomOutSlideDownStep: (date, char, duration) => {
+		return {
+			...zoomInOutSlide(date, char, duration),
+			translateY: ['-100%', '0%'],
+			delay: anime.stagger(delayTime(char)),
+		}
+	},
+	zoomOutSlideDownStepCenter: (date, char, duration) => {
+		return {
+			...zoomInOutSlide(date, char, duration),
+			translateY: ['-100%', '0%'],
+			delay: anime.stagger(delayTime(char), {from: 'center'}),
+		}
+	},
+	zoomOutSlideDownRandom: (date, char, duration) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			...zoomInOutSlide(date, char, duration),
+			translateY: ['-100%', '0%'],
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	zoomOutRotate: (date, char, duration) => {
+		return {
+			...zoomInOutSlide(date, char, duration),
+			rotateY: [90, 0],
+			opacity: [0, 1]
+		};
+	},
+	zoomOutRotateStep: (date, char, duration) => {
+		return {
+			...zoomInOutSlide(date, char, duration),
+			rotateY: [90, 0],
+			opacity: [0, 1],
+			delay: anime.stagger(delayTime(char)),
+		};
+	},
+	zoomOutRotateStepCenter: (date, char, duration) => {
+		return {
+			...zoomInOutSlide(date, char, duration),
+			rotateY: [90, 0],
+			opacity: [0, 1],
+			delay: anime.stagger(delayTime(char), {from: 'center'}),
+		};
+	},
+	zoomOutRotateRandom: (date, char, duration) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			...zoomInOutSlide(date, char, duration),
+			rotateY: [90, 0],
+			opacity: [0, 1],
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		};
+	},
+	zoomOutTracking: (date,char) => {
+		return {
+			targets: date,
+			translateZ: [500, 0],
+			letterSpacing: ['20px', '0px'],
+			opacity: [0, 1],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+		};
+	},
+	blur: (date, char) => {
+		return {
+			targets: date,
+			opacity: [0, 1],
+			filter: ['blur(50px)', 'blur(0px)'],
+			easing: 'cubicBezier(0.5, 0, 0, 1)'
+		}
+	},
+	blurStep: (date, char) => {
+		return {
+			targets: char,
+			opacity: [0, 1],
+			filter: ['blur(50px)', 'blur(0px)'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	blurStepCenter: (date, char) => {
+		return {
+			targets: char,
+			opacity: [0, 1],
+			filter: ['blur(50px)', 'blur(0px)'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'})
+		}
+	},
+	blurRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			opacity: [0, 1],
+			filter: ['blur(50px)', 'blur(0px)'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	fadeOut: (date, char) => {
+		return {
+			targets: char,
+			opacity: [0, 1],
+			easing: 'linear',
+		}
+	},
+	fadeOutStep: (date, char) => {
+		return {
+			targets: char,
+			opacity: [0, 1],
+			easing: 'cubicBezier(.5, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	fadeOutStepCenter: (date, char) => {
+		return {
+			targets: char,
+			opacity: [0, 1],
+			easing: 'cubicBezier(.5, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char), { from: 'center' })
+		}
+	},
+	fadeOutRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			opacity: [0, 1],
+			easing: 'cubicBezier(.5, 0, 0.5, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	typewrite: (date, char) => {
+		return {
+			targets: char,
+			opacity: {
+				value: [0, 1],
+				duration: 100,
+				easing: 'linear'
+			},
+			delay: anime.stagger(delayTime(char) * 2)
 		}
 	},
 	slideUp: (date, char) => {
@@ -333,7 +417,7 @@ const animationPresetsIn = {
 			translateX: [-date.offsetWidth, 0],
 			easing: 'cubicBezier(.5, 0, 0, 1)',
 			delay: (el, index, length) => {
-				return length - index * delayTime(char);
+				return (length - index) * delayTime(char);
 			},
 			changeComplete: (anim) => date.style.overflow = 'visible'
 		}
@@ -392,7 +476,80 @@ const animationPresetsIn = {
 			easing: 'cubicBezier(0.5, 0, 0, 1)'
 		}
 	},
-}
+	zoomInStep: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [-500, 0],
+			opacity: [0, 1],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	zoomInStepCenter: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [-500, 0],
+			opacity: [0, 1],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'})
+		}
+	},
+	zoomInRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			translateZ: [() => anime.random(-500, -1000), 0],
+			opacity: [0, 1],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	zoomInBlur: (date, char) => {
+		return {
+			targets: date,
+			translateZ: [-500, 0],
+			opacity: [0, 1],
+			filter: ['blur(50px)', 'blur(0px)'],
+			easing: 'cubicBezier(0.5, 0, 0, 1)'
+		}
+	},
+	zoomInBlurStep: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [-500, 0],
+			opacity: [0, 1],
+			filter: ['blur(50px)', 'blur(0px)'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	zoomInBlurStepCenter: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [-500, 0],
+			opacity: [0, 1],
+			filter: ['blur(50px)', 'blur(0px)'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'})
+		}
+	},
+	zoomInBlurRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			translateZ: [() => anime.random(-500, -1000), 0],
+			opacity: [0, 1],
+			filter: ['blur(50px)', 'blur(0px)'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+};
+
 
 class eTimeline {
 	constructor(parameters) {
@@ -546,12 +703,15 @@ class eTimeline {
 		
 
 		const dateAnimation = anime({
-			...animationPresetsIn[animationIn](openerDateWrapper, openerDateChars),
+			...animationPresetsIn[animationIn](openerDateWrapper, openerDateChars, animationInDuration),
 			duration: animationInDuration,
 			complete: () => {
-				console.log('complete');
+				anime({
+					...animationPresetsOut[animationOut](openerDateWrapper, openerDateChars, animationOutDuration),
+					duration: animationOutDuration
+				});
 			}
-		})
+		});
 	}
 
 	init() {
@@ -581,6 +741,438 @@ class eTimeline {
 		return string.replace(/-./g, match => match.charAt(1).toUpperCase());
 	}
 }
+
+
+const animationPresetsOut = {
+	zoomOut: (date, char) => {
+		return {
+			targets: date,
+			translateZ: [0, -500],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0.5, 1)'
+		}
+	},
+	zoomOutStep: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [0, -500],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	zoomOutStepCenter: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [0, -500],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char), { from: 'center' })
+		}
+	},
+	zoomOutRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			translateZ: [0, -500],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	zoomOutBlur: (date, char) => {
+		return {
+			targets: date,
+			translateZ: [0, -500],
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)'
+		}
+	},
+	zoomOutBlurStep: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [0, -500],
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	zoomOutBlurStepCenter: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [0, -500],
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char), { from: 'center' })
+		}
+	},
+	zoomOutBlurRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			translateZ: [0, -500],
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	zoomOutRotate: (date, char, animationOutDuration) => {
+		return {
+			targets: char,
+			translateZ: [0, -500],
+			rotateY: [0, 90],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, .5, 1)',
+		};
+	},
+	zoomOutTracking: (date,char) => {
+		return {
+			targets: date,
+			translateZ: [0, -500],
+			letterSpacing: ['0px', '50px'],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, .5, 1)'
+		};
+	},
+	blur: (date, char) => {
+		return {
+			targets: date,
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, .5, 1)',
+		};
+	},
+	blurStep: (date, char) => {
+		return {
+			targets: char,
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, .5, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	blurStepCenter: (date, char) => {
+		return {
+			targets: char,
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, .5, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'})
+		}
+	},
+	blurRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, .5, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	fadeIn: (date, char) => {
+		return {
+			targets: char,
+			opacity: [1, 0],
+			easing: 'linear',
+		}
+	},
+	fadeInStep: (date, char) => {
+		return {
+			targets: char,
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	fadeInStepCenter: (date, char) => {
+		return {
+			targets: char,
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char), { from: 'center' })
+		}
+	},
+	fadeInRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	typewrite: (date, char) => {
+		return {
+			targets: char,
+			opacity: {
+				value: [1, 0],
+				duration: 100,
+				easing: 'linear'
+			},
+			delay: anime.stagger(delayTime(char) * 2)
+		}
+	},
+	slideUp: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['0%', '-100%'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+		}
+	},
+	slideUpStep: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['0%', '-100%'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char)),
+		}
+	},
+	slideUpStepCenter: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['0%', '-100%'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'}),
+		}
+	},
+	slideUpRandom: (date, char) => {
+		date.style.overflow = 'hidden';
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			translateY: ['0%', '-100%'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			},
+		}
+	},
+	slideDown: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['0%', '100%'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+		}
+	},
+	slideDownStep: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['0%', '100%'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char)),
+		}
+	},
+	slideDownStepCenter: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['0%', '100%'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'}),
+		}
+	},
+	slideDownRandom: (date, char) => {
+		date.style.overflow = 'hidden';
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			translateY: ['0%', '100%'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			},
+		}
+	},
+	slideLeft: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateX: [0, -date.offsetWidth],
+			easing: 'cubicBezier(1, 0, 1, 1)',
+		}
+	},
+	slideLeftStep: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateX: [0, -date.offsetWidth],
+			easing: 'cubicBezier(1, 0, 1, 1)',
+			delay: anime.stagger(delayTime(char)),
+		}
+	},
+	slideRight: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateX: [0, date.offsetWidth],
+			easing: 'cubicBezier(1, 0, 1, 1)',
+		}
+	},
+	slideRightStep: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateX: [0, date.offsetWidth],
+			easing: 'cubicBezier(1, 0, 1, 1)',
+			delay: (el, index, length) => {
+				return (length - index) * delayTime(char);
+			},
+		}
+	},
+	rotate: (date, char) => {
+		return {
+			targets: char,
+			rotateY: [0, 90],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, .5, 1)'
+		}
+	},
+	rotateStep: (date, char) => {
+		return {
+			targets: char,
+			rotateY: [0, 90],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, .5, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	rotateStepCenter: (date, char) => {
+		return {
+			targets: char,
+			rotateY: [0, 90],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, .5, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'})
+		}
+	},
+	rotateRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			rotateY: [0, 90],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, .5, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	tracking: (date, char) => {
+		return {
+			targets: date,
+			letterSpacing: ['25px', '0px'],
+			opacity: [0, 1],
+			easing: 'cubicBezier(1, 0, 0.5, 1)'
+		}
+	},
+	tracking: (date, char) => {
+		return {
+			targets: date,
+			letterSpacing: ['0px', '25px'],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0.5, 1)'
+		}
+	},
+	zoomIn: (date, char) => {
+		return {
+			targets: date,
+			translateZ: [0, 500],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0.5, 1)'
+		}
+	},
+	zoomInStep: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [0, 500],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	zoomInStepCenter: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [0, 500],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'})
+		}
+	},
+	zoomInRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			translateZ: [0, () => anime.random(500, 1000)],
+			opacity: [1, 0],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	zoomInBlur: (date, char) => {
+		return {
+			targets: date,
+			translateZ: [0, 500],
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+		}
+	},
+	zoomInBlurStep: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [0, 500],
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	zoomInBlurStepCenter: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [0, 500],
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'})
+		}
+	},
+	zoomInBlurRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			translateZ: [0, 500],
+			opacity: [1, 0],
+			filter: ['blur(0px)', 'blur(50px)'],
+			easing: 'cubicBezier(1, 0, 0.5, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	}
+};
+
 
 
 const DATA = [
@@ -620,12 +1212,14 @@ new eTimeline({
 			enabled: true,
 			date: {
 				animationInDuration: 1000,
-				animationIn: 'zoom-in',
-				animationOut: 'slide-up',
+				animationIn: 'zoom-out-slide-up-random',
+				animationOut: 'zoom-out-rotate',
 				animationOutDuration: 1000,
 			}
 		}
 	}
 });
 
-console.log(animationPresetsIn)
+console.log(animationPresetsIn, Object.keys(animationPresetsIn).length)
+console.log(animationPresetsOut, Object.keys(animationPresetsOut).length)
+
