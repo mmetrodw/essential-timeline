@@ -41,7 +41,7 @@ const zoomOutSlide = (date, char) => {
 				anime({
 					targets: date,
 					translateZ: [500, 0],
-					easing: 'cubicBezier(.5, 0, 0, 1)',
+					easing: 'cubicBezier(1, 0, .5, 1)',
 				});
 			}
 		},
@@ -120,6 +120,13 @@ const animationPresetsIn = {
 			...zoomOutSlide(date, char),
 			translateY: ['-100%', '0%'],
 			delay: anime.stagger(delayTime(char)),
+		}
+	},
+	zoomOutSlideDownStepCenter: (date, char) => {
+		return {
+			...zoomOutSlide(date, char),
+			translateY: ['-100%', '0%'],
+			delay: anime.stagger(delayTime(char), {from: 'center'}),
 		}
 	},
 	zoomOutSlideDownRandom: (date, char) => {
@@ -207,19 +214,174 @@ const animationPresetsIn = {
 			}
 		}
 	},
-	slideLeft: (date, char) => {
+	slideUp: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['100%', '0%'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			changeComplete: (anim) => date.style.overflow = 'visible'
+		}
+	},
+	slideUpStep: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['100%', '0%'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char)),
+			changeComplete: (anim) => date.style.overflow = 'visible'
+		}
+	},
+	slideUpStepCenter: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['100%', '0%'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'}),
+			changeComplete: (anim) => date.style.overflow = 'visible'
+		}
+	},
+	slideUpRandom: (date, char) => {
+		date.style.overflow = 'hidden';
 		const shuffledArray = createShuffledArray(char.length);
 		return {
-			...zoomOutSlide(date, char),
+			targets: char,
+			translateY: ['100%', '0%'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			},
+			changeComplete: (anim) => date.style.overflow = 'visible'
+		}
+	},
+	slideDown: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['-100%', '0%'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			changeComplete: (anim) => date.style.overflow = 'visible'
+		}
+	},
+	slideDownStep: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['-100%', '0%'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char)),
+			changeComplete: (anim) => date.style.overflow = 'visible'
+		}
+	},
+	slideDownStepCenter: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateY: ['-100%', '0%'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'}),
+			changeComplete: (anim) => date.style.overflow = 'visible'
+		}
+	},
+	slideDownRandom: (date, char) => {
+		date.style.overflow = 'hidden';
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			translateY: ['-100%', '0%'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			},
+			changeComplete: (anim) => date.style.overflow = 'visible'
+		}
+	},
+	slideLeft: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
 			translateX: [date.offsetWidth, 0],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			changeComplete: (anim) => date.style.overflow = 'visible'
 		}
 	},
 	slideLeftStep: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateX: [date.offsetWidth, 0],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char)),
+			changeComplete: (anim) => date.style.overflow = 'visible'
+		}
+	},
+	slideRight: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateX: [-date.offsetWidth, 0],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			changeComplete: (anim) => date.style.overflow = 'visible'
+		}
+	},
+	slideRightStep: (date, char) => {
+		date.style.overflow = 'hidden';
+		return {
+			targets: char,
+			translateX: [-date.offsetWidth, 0],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: (el, index, length) => {
+				return length - index * delayTime(char);
+			},
+			changeComplete: (anim) => date.style.overflow = 'visible'
+		}
+	},
+	rotate: (date, char) => {
+		return {
+			targets: char,
+			rotateY: [90, 0],
+			opacity: [0, 1],
+			easing: 'cubicBezier(1, 0, .5, 1)'
+		}
+	},
+	rotateStep: (date, char) => {
+		return {
+			targets: char,
+			rotateY: [90, 0],
+			opacity: [0, 1],
+			easing: 'cubicBezier(1, 0, .5, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	rotateStepCenter: (date, char) => {
+		return {
+			targets: char,
+			rotateY: [90, 0],
+			opacity: [0, 1],
+			easing: 'cubicBezier(1, 0, .5, 1)',
+			delay: anime.stagger(delayTime(char), {from: 'center'})
+		}
+	},
+	rotateRandom: (date, char) => {
 		const shuffledArray = createShuffledArray(char.length);
 		return {
-			...zoomOutSlide(date, char),
-			translateX: [date.offsetWidth, 0],
-			delay: anime.stagger(delayTime(char)),
+			targets: char,
+			rotateY: [90, 0],
+			opacity: [0, 1],
+			easing: 'cubicBezier(1, 0, .5, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	tracking: (date, char) => {
+		return {
+			targets: date,
+			letterSpacing: ['25px', '0px'],
+			opacity: [0, 1],
+			easing: 'cubicBezier(1, 0, 0.5, 1)'
 		}
 	},
 	zoomIn: (date, char) => {
@@ -458,7 +620,7 @@ new eTimeline({
 			enabled: true,
 			date: {
 				animationInDuration: 1000,
-				animationIn: 'zoom-out-blur-random',
+				animationIn: 'zoom-in',
 				animationOut: 'slide-up',
 				animationOutDuration: 1000,
 			}
