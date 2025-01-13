@@ -7,12 +7,229 @@ const eTimelineInitialSettings = {
 		opener: {
 			enabled: true,
 			date: {
-				animationDuration: '1s',
 				animationIn: 'zoom-out',
-				animationOut: 'zoom-out'
+				animationInDuration: '1s',
+				animationOut: 'zoom-out',
+				animationOutDuration: 'zoom-out',
 			}
 		}
 	}
+}
+
+function delayTime(char) {
+	return char.length >= 4 ? 25 : 100;
+};
+
+function createShuffledArray(n) {
+	let array = Array.from({ length: n + 1 }, (_, i) => i);
+
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	
+	return array;
+}
+
+const zoomOutSlide = (date, char) => {
+	date.style.overflow = 'hidden';
+	return {
+		targets: char,
+		easing: 'cubicBezier(.5, 0, 0, 1)',
+		begin: (anim) => {
+			if(anim.began) {
+				anime({
+					targets: date,
+					translateZ: [500, 0],
+					easing: 'cubicBezier(.5, 0, 0, 1)',
+				});
+			}
+		},
+		changeComplete: (anim) => date.style.overflow = 'visible'
+	}
+};
+
+const animationPresetsIn = {
+	zoomOut: (date, char) => {
+		return {
+			targets: date,
+			translateZ: [1000, 0],
+			opacity: [0, 1],
+			easing: 'cubicBezier(.5, 0, 0, 1)'
+		}
+	},
+	zoomOutStep: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [1000, 0],
+			opacity: [0, 1],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	zoomOutRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			translateZ: [() => anime.random(500, 1000), 0],
+			opacity: [0, 1],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	zoomOutSlideUp: (date, char) => {
+		return {
+			...zoomOutSlide(date, char),
+			translateY: ['100%', '0%']
+		};
+	},
+	zoomOutSlideUpStep: (date, char) => {
+		return {
+			...zoomOutSlide(date, char),
+			translateY: ['100%', '0%'],
+			delay: anime.stagger(delayTime(char)),
+		}
+	},
+	zoomOutSlideUpStepCenter: (date, char) => {
+		return {
+			...zoomOutSlide(date, char),
+			translateY: ['100%', '0%'],
+			delay: anime.stagger(delayTime(char), {from: 'center'}),
+		}
+	},
+	zoomOutSlideUpRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			...zoomOutSlide(date, char),
+			translateY: ['100%', '0%'],
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	zoomOutSlideDown: (date, char) => {
+		return {
+			...zoomOutSlide(date, char),
+			translateY: ['-100%', '0%']
+		};
+	},
+	zoomOutSlideDownStep: (date, char) => {
+		return {
+			...zoomOutSlide(date, char),
+			translateY: ['-100%', '0%'],
+			delay: anime.stagger(delayTime(char)),
+		}
+	},
+	zoomOutSlideDownRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			...zoomOutSlide(date, char),
+			translateY: ['-100%', '0%'],
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	zoomOutRotate: (date, char) => {
+		return {
+			...zoomOutSlide(date, char),
+			rotateY: [90, 0],
+			opacity: [0, 1]
+		};
+	},
+	zoomOutRotateStep: (date, char) => {
+		return {
+			...zoomOutSlide(date, char),
+			rotateY: [90, 0],
+			opacity: [0, 1],
+			delay: anime.stagger(delayTime(char)),
+		};
+	},
+	zoomOutRotateStepCenter: (date, char) => {
+		return {
+			...zoomOutSlide(date, char),
+			rotateY: [90, 0],
+			opacity: [0, 1],
+			delay: anime.stagger(delayTime(char), {from: 'center'}),
+		};
+	},
+	zoomOutRotateRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			...zoomOutSlide(date, char),
+			rotateY: [90, 0],
+			opacity: [0, 1],
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		};
+	},
+	zoomOutTracking: (date,char) => {
+		return {
+			targets: date,
+			translateZ: [500, 0],
+			letterSpacing: ['20px', '0px'],
+			opacity: [0, 1],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+		};
+	},
+	zoomOutBlur: (date, char) => {
+		return {
+			targets: date,
+			translateZ: [500, 0],
+			opacity: [0, 1],
+			filter: ['blur(50px)', 'blur(0px)'],
+			easing: 'cubicBezier(.5, 0, 0, 1)'
+		}
+	},
+	zoomOutBlurStep: (date, char) => {
+		return {
+			targets: char,
+			translateZ: [500, 0],
+			opacity: [0, 1],
+			filter: ['blur(50px)', 'blur(0px)'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: anime.stagger(delayTime(char))
+		}
+	},
+	zoomOutBlurRandom: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			targets: char,
+			translateZ: [() => anime.random(500, 1000), 0],
+			opacity: [0, 1],
+			filter: ['blur(50px)', 'blur(0px)'],
+			easing: 'cubicBezier(.5, 0, 0, 1)',
+			delay: (el, index, length) => {
+				return shuffledArray[index] * delayTime(char);
+			}
+		}
+	},
+	slideLeft: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			...zoomOutSlide(date, char),
+			translateX: [date.offsetWidth, 0],
+		}
+	},
+	slideLeftStep: (date, char) => {
+		const shuffledArray = createShuffledArray(char.length);
+		return {
+			...zoomOutSlide(date, char),
+			translateX: [date.offsetWidth, 0],
+			delay: anime.stagger(delayTime(char)),
+		}
+	},
+	zoomIn: (date, char) => {
+		return {
+			targets: date,
+			translateZ: [-500, 0],
+			opacity: [0, 1],
+			easing: 'cubicBezier(0.5, 0, 0, 1)'
+		}
+	},
 }
 
 class eTimeline {
@@ -99,19 +316,20 @@ class eTimeline {
 			if(this.options.opener.enabled) {
 				const timelinePeriodOpennerWrapper = document.createElement('div');
 				timelinePeriodOpennerWrapper.classList.add('etl-timeline-period-opener-wrapper');
-				timelinePeriodOpennerWrapper.style.setProperty('--animation-duration', this.options.opener.date.animationDuration);
 				timelinePeriod.appendChild(timelinePeriodOpennerWrapper);
 
 				const timelinePeriodOpennerDate = document.createElement('div');
 				timelinePeriodOpennerDate.classList.add('etl-timeline-period-opener-date');
+				timelinePeriodOpennerDate.dataset.animationIn = this.options.opener.date.animationIn;
+				timelinePeriodOpennerDate.dataset.animationInDuration = this.options.opener.date.animationInDuration;
+				timelinePeriodOpennerDate.dataset.animationOut = this.options.opener.date.animationOut;
+				timelinePeriodOpennerDate.dataset.animationOutDuration = this.options.opener.date.animationOutDuration;
 				timelinePeriodOpennerWrapper.appendChild(timelinePeriodOpennerDate);
 
 				for(var i = 0; i < period.date.length; i++) {
-					const dateChar = document.createElement('span');
+					const dateChar = document.createElement('div');
 					dateChar.classList.add('etl-timeline-period-opener-date-char');
 					dateChar.innerHTML = period.date[i];
-					dateChar.style.setProperty('--char-animation-delay', `${i * 25}ms`);
-					dateChar.style.setProperty('--char-random-value', this.getRandomInteger(1, 10));
 					timelinePeriodOpennerDate.appendChild(dateChar);
 				}
 			}
@@ -119,6 +337,10 @@ class eTimeline {
 
 		this.uiElements.navigationItems = this.uiElements.navigationWrapper.querySelectorAll('.etl-navigation-item');
 		this.uiElements.timelinePeriods = this.uiElements.timelineWrapper.querySelectorAll('.etl-timeline-period');
+
+		if(this.options.opener.enabled) {
+			this.uiElements.openers = this.uiElements.timelineWrapper.querySelectorAll('.etl-timeline-period-opener-wrapper');
+		}
 	}
 
 
@@ -139,13 +361,35 @@ class eTimeline {
 
 		this.uiElements.timelinePeriods.forEach((item, index) => {
 			if(index === period) {
-				this.removeAllClassesExcept(item, ['etl-timeline-period', 'current', `etl-opener-animation-in-${this.options.opener.date.animationIn}`]);
+				item.classList.add('current');
 			} else {
-				this.removeAllClassesExcept(item, ['etl-timeline-period']);
+				item.classList.remove('current');
 			}
 		});
 
 		this.currentPeriod = period;
+
+		const opener = this.uiElements.openers[period];
+		const openerDateWrapper = opener.querySelector('.etl-timeline-period-opener-date');
+		const openerDateChars = openerDateWrapper.querySelectorAll('.etl-timeline-period-opener-date-char');
+
+		this.animateOpener(opener, openerDateWrapper, openerDateChars)
+	}
+
+	animateOpener(opener, openerDateWrapper, openerDateChars) {
+		const animationIn = this.toCamelCase(openerDateWrapper.dataset.animationIn);
+		const animationInDuration = parseInt(openerDateWrapper.dataset.animationInDuration);
+		const animationOut = this.toCamelCase(openerDateWrapper.dataset.animationOut);
+		const animationOutDuration = parseInt(openerDateWrapper.dataset.animationOutDuration);
+		
+
+		const dateAnimation = anime({
+			...animationPresetsIn[animationIn](openerDateWrapper, openerDateChars),
+			duration: animationInDuration,
+			complete: () => {
+				console.log('complete');
+			}
+		})
 	}
 
 	init() {
@@ -170,20 +414,16 @@ class eTimeline {
 		}, {})
 	}
 
-	removeAllClassesExcept(element, classesToKeep = []) {
-		element.className = '';
-		classesToKeep.forEach(cls => element.classList.add(cls));
-	}
-
-	getRandomInteger(min, max) {
-		return Math.floor(Math.random() * (max - min + 1)) + min;
+	toCamelCase(string) {
+		console.log(string)
+		return string.replace(/-./g, match => match.charAt(1).toUpperCase());
 	}
 }
 
 
 const DATA = [
 	{
-		date: '7 january 2025',
+		date: '1 january 2025',
 		heading: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		content: 'Nam eros metus, molestie id ullamcorper et, auctor sed nunc. Proin semper non velit sit amet venenatis. Mauris egestas purus at erat imperdiet ullamcorper. In tincidunt hendrerit commodo. Nulla facilisi. Vestibulum convallis venenatis ex, non venenatis sem pulvinar ut. Quisque posuere aliquam enim ac eleifend. Cras efficitur tincidunt venenatis. Ut a malesuada odio. Nunc vel mi quis sapien auctor pretium eu ut mi. Fusce eget nisi congue, ultrices elit sed, semper libero. Integer dapibus orci in mauris tempor, non iaculis nulla fermentum. Nulla venenatis aliquam orci eget dapibus.',
 		link: {
@@ -192,7 +432,7 @@ const DATA = [
 		}
 	},
 	{
-		date: '7 january 2025',
+		date: '3 january 2025',
 		heading: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 		content: 'Nam eros metus, molestie id ullamcorper et, auctor sed nunc. Proin semper non velit sit amet venenatis. Mauris egestas purus at erat imperdiet ullamcorper. In tincidunt hendrerit commodo. Nulla facilisi. Vestibulum convallis venenatis ex, non venenatis sem pulvinar ut. Quisque posuere aliquam enim ac eleifend. Cras efficitur tincidunt venenatis. Ut a malesuada odio. Nunc vel mi quis sapien auctor pretium eu ut mi. Fusce eget nisi congue, ultrices elit sed, semper libero. Integer dapibus orci in mauris tempor, non iaculis nulla fermentum. Nulla venenatis aliquam orci eget dapibus.',
 		image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Wolfgang-amadeus-mozart_1.jpg/1280px-Wolfgang-amadeus-mozart_1.jpg',
@@ -217,547 +457,13 @@ new eTimeline({
 		opener: {
 			enabled: true,
 			date: {
-				animationDuration: '1s',
-				animationIn: 'zoom-out-letter-rotate',
-				animationOut: 'zoom-out'
+				animationInDuration: 1000,
+				animationIn: 'zoom-out-blur-random',
+				animationOut: 'slide-up',
+				animationOutDuration: 1000,
 			}
 		}
 	}
 });
 
-
-
-const timelinePeriodOpennerDate = document.querySelectorAll('.col .etl-timeline-period-opener-date');
-
-const prevData = '7 грудня 1943';
-
-timelinePeriodOpennerDate.forEach((item) => {
-	for(var i = 0; i < prevData.length; i++) {
-		const dateChar = document.createElement('span');
-		dateChar.classList.add('etl-timeline-period-opener-date-char');
-		dateChar.setAttribute('value', 0);
-		dateChar.innerHTML = prevData[i];
-		item.appendChild(dateChar);
-	}
-});
-
-const animationPresets = {
-	"in": {
-		"zoom-out": {
-			"translateZ": [500, 0],
-			"opacity": [0, 1],
-			"easing": 'cubicBezier(.5, 0, 0, 1)',
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-out-offset": {
-			"translateZ": [500, 0],
-			"opacity": [0, 1],
-			"easing": 'cubicBezier(.5, 0, 0, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = index * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-out-offset-random": {
-			"translateZ": [() => { return anime.random(500, 1000) }, 0],
-			"opacity": [0, 1],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = anime.random(0, length) * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-out-letter-spacing": {
-			"parent": {
-				"scale": [2, 1],
-				"opacity": [0, 1],
-				"easing": 'cubicBezier(1, 0, 0.5, 1)',
-				"loop": true,
-				"autoplay": true
-			},
-			"child" : {
-				"letterSpacing": ['25px', '0'],
-				"easing": 'cubicBezier(1, 0, 0.5, 1)',
-				"loop": true,
-				"autoplay": true
-			}
-		},
-		"zoom-out-letter-fly-up": {
-			"parent": {
-				"scale": [2, 1],
-				"easing": 'cubicBezier(1, 0, 0.5, 1)',
-				"loop": true,
-				"autoplay": true
-			},
-			"child": {
-				"translateY": ['100%', '0%'],
-				"easing": 'cubicBezier(.5, 0, 0, 1)',
-				'delay': (el, index, length) => {
-					const offset = length > 4 ? 25 : 100; 
-					const delay = index * offset;
-					return delay;
-				},
-				"loop": true,
-				"autoplay": true
-			}
-		},
-		"zoom-out-letter-fly-down": {
-			"parent": {
-				"scale": [2, 1],
-				"easing": 'cubicBezier(1, 0, 0.5, 1)',
-				"loop": true,
-				"autoplay": true
-			},
-			"child": {
-				"translateY": ['-100%', '0%'],
-				"easing": 'cubicBezier(.5, 0, 0, 1)',
-				'delay': (el, index, length) => {
-					const offset = length > 4 ? 25 : 100; 
-					const delay = index * offset;
-					return delay;
-				},
-				"loop": true,
-				"autoplay": true
-			}
-		},
-		"zoom-out-letter-rotate": {
-			"parent": {
-				"scale": [2, 1],
-				"easing": 'cubicBezier(1, 0, 0.5, 1)',
-				"loop": true,
-				"autoplay": true
-			},
-			"child": {
-				"rotateY": [90, 0],
-				"opacity": [0, 1],
-				"easing": 'cubicBezier(1, 0, 0.5, 1)',
-				'delay': (el, index, length) => {
-					const offset = length > 4 ? 25 : 100; 
-					const delay = index * offset;
-					return delay;
-				},
-				"loop": true,
-				"autoplay": true
-			}
-		},
-		"letter-spacing": {
-			"opacity": [0, 1],
-			"letterSpacing": ['25px', '0'],
-			"easing": 'cubicBezier(.5, 0, 0, 1)',
-			"loop": true,
-			"autoplay": true
-		},
-		"letter-fly-up": {
-			"translateY": ['100%', '0%'],
-			"easing": 'cubicBezier(.5, 0, 0, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = index * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"letter-fly-down": {
-			"translateY": ['-100%', '0%'],
-			"easing": 'cubicBezier(.5, 0, 0, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = index * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"letter-rotate": {
-			"rotateY": [90, 0],
-			"opacity": [0, 1],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = index * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"letters-fade-out": {
-			"opacity": {
-				"value": [0, 1],
-				"duration": 100,
-				"delay": (el, index, length) => {
-					const offset = length > 4 ? 25 : 100;
-					const delay = index * offset;
-					return delay * 2;
-				},
-				"easing": 'linear'
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"letters-fade-out-random": {
-			"opacity": [0, 1],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = anime.random(0, length) * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-in": {
-			"translateZ": [-500, 0],
-			"opacity": [0, 1],
-			"easing": 'cubicBezier(.5, 0, 0, 1)',
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-in-offset": {
-			"translateZ": [-500, 0],
-			"opacity": [0, 1],
-			"easing": 'cubicBezier(.5, 0, 0, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = index * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-in-offset-random": {
-			"translateZ": [() => { return anime.random(-500, -1000) }, 0],
-			"opacity": [0, 1],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = anime.random(0, length) * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-	},
-	"out": {
-		"zoom-out": {
-			"translateZ": [0, -500],
-			"opacity": [1, 0],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-out-offset": {
-			"translateZ": [0, -500],
-			"opacity": [1, 0],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = index * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-out-offset-random": {
-			"translateZ": [0, () => { return anime.random(-500, -1000) }],
-			"opacity": [1, 0],
-			"easing": 'cubicBezier(1, 0, 0., 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = anime.random(0, length) * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-out-letter-rotate": {
-			"parent": {
-				"translateZ": [0, -500],
-				"easing": 'cubicBezier(1, 0, 0.5, 1)',
-				"loop": true,
-				"autoplay": true
-			},
-			"child": {
-				"rotateY": [0, 90],
-				"opacity": [1, 0],
-				"easing": 'cubicBezier(1, 0, 0.5, 1)',
-				'delay': (el, index, length) => {
-					const offset = length > 4 ? 25 : 100; 
-					const delay = index * offset;
-					return delay;
-				},
-				"loop": true,
-				"autoplay": true
-			}
-		},
-		"letter-spacing": {
-			"opacity": [1, 0],
-			"letterSpacing": ['0px', '25px'],
-			"easing": 'cubicBezier(.5, 0, 0, 1)',
-			"loop": true,
-			"autoplay": true
-		},
-		"letter-fly-up": {
-			"translateY": ['0%', '-100%'],
-			"easing": 'cubicBezier(.5, 0, 0, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = index * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"letter-fly-down": {
-			"translateY": ['0', '100%'],
-			"easing": 'cubicBezier(.5, 0, 0, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = index * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"letter-rotate": {
-			"rotateY": [0, 90],
-			"opacity": [1, 0],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = index * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"letters-fade-out": {
-			"opacity": {
-				"value": [1, 0],
-				"duration": 100,
-				"delay": (el, index, length) => {
-					const offset = length > 4 ? 25 : 100;
-					const delay = index * offset;
-					return delay * 2;
-				},
-				"easing": 'linear'
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"letters-fade-out-random": {
-			"opacity": [1, 0],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = anime.random(0, length) * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-in": {
-			"translateZ": [0, 500],
-			"opacity": [1, 0],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-in-offset": {
-			"translateZ": [0, 500],
-			"opacity": [1, 0],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = index * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-in-offset-random": {
-			"translateZ": [0, () => { return anime.random(500, 1000) }],
-			"opacity": [1, 0],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			'delay': (el, index, length) => {
-				const offset = length > 4 ? 25 : 100; 
-				const delay = anime.random(0, length) * offset;
-				return delay;
-			},
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-in-letter-spacing": {
-			"translateZ": [0, 500],
-			"opacity": [1, 0],
-			"letterSpacing": ['0px', '50px'],
-			"easing": 'cubicBezier(1, 0, 0.5, 1)',
-			"loop": true,
-			"autoplay": true
-		},
-		"zoom-in-letter-fly-up": {
-			"parent": {
-				"scale": [1, 2],
-				"easing": 'cubicBezier(.5, 0, 0, 1)',
-				"loop": true,
-				"autoplay": true
-			},
-			"child": {
-				"translateY": ['0%', '-100%'],
-				"easing": 'cubicBezier(.5, 0, 0, 1)',
-				'delay': (el, index, length) => {
-					const offset = length > 4 ? 25 : 100; 
-					const delay = index * offset;
-					return delay;
-				},
-				"loop": true,
-				"autoplay": true
-			}
-		},
-		"zoom-in-letter-fly-down": {
-			"parent": {
-				"scale": [1, 2],
-				"easing": 'cubicBezier(.5, 0, 0, 1)',
-				"loop": true,
-				"autoplay": true
-			},
-			"child": {
-				"translateY": ['0%', '100%'],
-				"easing": 'cubicBezier(.5, 0, 0, 1)',
-				'delay': (el, index, length) => {
-					const offset = length > 4 ? 25 : 100; 
-					const delay = index * offset;
-					return delay;
-				},
-				"loop": true,
-				"autoplay": true
-			}
-		},
-		"zoom-in-letter-rotate": {
-			"parent": {
-				"translateZ": [0, 500],
-				"easing": 'cubicBezier(1, 0, 0.5, 1)',
-				"loop": true,
-				"autoplay": true
-			},
-			"child": {
-				"rotateY": [0, 90],
-				"opacity": [1, 0],
-				"easing": 'cubicBezier(1, 0, 0.5, 1)',
-				'delay': (el, index, length) => {
-					const offset = length > 4 ? 25 : 100; 
-					const delay = index * offset;
-					return delay;
-				},
-				"loop": true,
-				"autoplay": true
-			}
-		}
-	}
-}
-
-
-timelinePeriodOpennerDate.forEach((item) => {
-	const animationIn = item.dataset.animationIn;
-	const animationInDuration = parseInt(item.dataset.animationInDuration);
-	const animationOut = item.dataset.animationOut;
-	const animationOutDuration = parseInt(item.dataset.animationOutDuration);
-	const target = item.querySelectorAll('.etl-timeline-period-opener-date-char');
-
-	if(animationIn) {
-		switch(animationIn) {
-			case 'zoom-out-letter-fly-up':
-			case 'zoom-out-letter-fly-down':
-			case 'zoom-out-letter-rotate':
-			case 'zoom-out-letter-spacing': {
-				const childAnim = anime({
-					targets: target,
-					...animationPresets["in"][animationIn]["child"],
-					duration: animationInDuration,
-				});
-				const parentAnim = anime({
-					targets: item,
-					...animationPresets["in"][animationIn]["parent"],
-					duration: childAnim.duration,
-				});
-				break;
-			}
-			case 'zoom-out-elastic':
-			case 'zoom-out-offset-elastic':
-			case 'zoom-out-offset-random-elastic':
-			case 'letter-fly-up-elastic':
-			case 'letter-fly-down-elastic':
-			case 'zoom-in-elastic':
-			case 'zoom-in-offset-elastic':
-			case 'zoom-in-offset-random-elastic': {
-				anime({
-					targets: target,
-					...animationPresets["in"][animationIn.replace("-elastic", "")],
-					easing: 'spring(1, 80, 10, 0)',
-					duration: animationInDuration,
-				});
-				break;
-			}
-			default: {
-				anime({
-					targets: target,
-					...animationPresets["in"][animationIn],
-					duration: animationInDuration,
-				});
-				break;
-			}
-		}
-	}
-
-	if(animationOut) {
-		switch(animationOut) {
-			case 'zoom-out-letter-rotate':
-			case 'zoom-in-letter-fly-up':
-			case 'zoom-in-letter-fly-down':
-			case 'zoom-in-letter-rotate': {
-				const childAnim = anime({
-					targets: target,
-					...animationPresets["out"][animationOut]["child"],
-					duration: animationOutDuration,
-				});
-				const parentAnim = anime({
-					targets: item,
-					...animationPresets["out"][animationOut]["parent"],
-					duration: childAnim.duration,
-				});
-				break;
-			}
-			case 'zoom-out-elastic':
-			case 'zoom-out-offset-elastic':
-			case 'zoom-out-offset-random-elastic':
-			case 'letter-fly-up-elastic':
-			case 'letter-fly-down-elastic':
-			case 'zoom-in-elastic':
-			case 'zoom-in-offset-elastic':
-			case 'zoom-in-offset-random-elastic': {
-				anime({
-					targets: target,
-					...animationPresets["out"][animationOut.replace("-elastic", "")],
-					easing: 'easeInElastic(1, .6)',
-					duration: animationOutDuration,
-				});
-				break;
-			}
-			default: {
-				anime({
-					targets: target,
-					...animationPresets["out"][animationOut],
-					duration: animationOutDuration,
-				});
-				break;
-			}
-		}
-	}
-});
+console.log(animationPresetsIn)
